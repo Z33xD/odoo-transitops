@@ -8,7 +8,8 @@
             } catch (_) {}
         }
         if (document.getElementById('totalDrivers')) populateSafetyKPIs();
-        if (document.getElementById('operationalCost')) populateFinanceKPIs();
+        if (document.getElementById('totalFuelCost')) populateFinanceKPIs();
+        if (document.getElementById('operationalCost')) populateLegacyFinanceKPIs();
     }
 
     async function populateFleetKPIs() {
@@ -47,7 +48,9 @@
             if (activeTrip) {
                 var vehicles = await TransitOpsAPI.getVehicles();
                 var v = vehicles.find(function (x) { return x.id === activeTrip.vehicle_id; });
-                document.getElementById('currentVehicle').innerText = v ? v.registration_number : '-';
+                if (document.getElementById('currentVehicle')) {
+                    document.getElementById('currentVehicle').innerText = v ? v.registration_number : '-';
+                }
             }
         } catch (e) { console.error('KPI Driver error:', e); }
     }
@@ -65,14 +68,38 @@
                 return diff > 0 && diff <= 60;
             }).length;
 
+            var activeAlerts = drivers.filter(function (d) {
+                var diff = Math.ceil((new Date(d.license_expiry_date) - today) / (1000 * 60 * 60 * 24));
+                return d.status === 'Suspended' || d.safety_score < 75 || diff <= 0;
+            }).length;
+
             document.getElementById('totalDrivers').innerText = total;
             document.getElementById('availableDrivers').innerText = available;
-            document.getElementById('expiringLicenses').innerText = expiring;
-            document.getElementById('averageSafetyScore').innerText = avgScore;
+            if (document.getElementById('averageSafetyScore')) document.getElementById('averageSafetyScore').innerText = avgScore;
+            if (document.getElementById('expiringLicenses')) document.getElementById('expiringLicenses').innerText = expiring;
+            if (document.getElementById('activeAlerts')) document.getElementById('activeAlerts').innerText = activeAlerts;
         } catch (e) { console.error('KPI Safety error:', e); }
     }
 
     async function populateFinanceKPIs() {
+        try {
+            var fuelLogs = await TransitOpsAPI.getFuelLogs();
+            var maintLogs = await TransitOpsAPI.getMaintenanceLogs();
+            var expenses = await TransitOpsAPI.getExpenses();
+
+            var totalFuelCost = fuelLogs.reduce(function (s, f) { return s + (f.total_cost || f.cost || 0); }, 0);
+            var totalMaintCost = maintLogs.reduce(function (s, m) { return s + (m.cost || 0); }, 0);
+            var totalExpensesCost = expenses.reduce(function (s, e) { return s + (e.amount || 0); }, 0);
+            var cumulativeOverhead = totalFuelCost + totalMaintCost + totalExpensesCost;
+
+            if (document.getElementById('totalFuelCost')) document.getElementById('totalFuelCost').innerText = '\u20B9' + totalFuelCost.toLocaleString();
+            if (document.getElementById('totalMaintCost')) document.getElementById('totalMaintCost').innerText = '\u20B9' + totalMaintCost.toLocaleString();
+            if (document.getElementById('totalExpenses')) document.getElementById('totalExpenses').innerText = '\u20B9' + totalExpensesCost.toLocaleString();
+            if (document.getElementById('cumulativeOverhead')) document.getElementById('cumulativeOverhead').innerText = '\u20B9' + cumulativeOverhead.toLocaleString();
+        } catch (e) { console.error('KPI Finance error:', e); }
+    }
+
+    async function populateLegacyFinanceKPIs() {
         try {
             var expenses = await TransitOpsAPI.getExpenses();
             var fuelLogs = await TransitOpsAPI.getFuelLogs();
@@ -80,17 +107,17 @@
             var trips = await TransitOpsAPI.getTrips();
 
             var totalExpenses = expenses.reduce(function (s, e) { return s + e.amount; }, 0);
-            var totalFuel = fuelLogs.reduce(function (s, f) { return s + f.cost; }, 0);
+            var totalFuel = fuelLogs.reduce(function (s, f) { return s + (f.total_cost || f.cost || 0); }, 0);
             var totalMaint = maintLogs.reduce(function (s, m) { return s + (m.cost || 0); }, 0);
             var opCost = totalExpenses + totalFuel + totalMaint;
             var totalRevenue = trips.reduce(function (s, t) { return s + (t.revenue || 0); }, 0);
             var roi = opCost > 0 ? Math.round(((totalRevenue - opCost) / opCost) * 100) : 0;
 
-            document.getElementById('operationalCost').innerText = '\u20B9' + opCost.toLocaleString();
-            document.getElementById('fuelCost').innerText = '\u20B9' + totalFuel.toLocaleString();
-            document.getElementById('maintenanceCost').innerText = '\u20B9' + totalMaint.toLocaleString();
-            document.getElementById('vehicleROI').innerText = roi + '%';
-        } catch (e) { console.error('KPI Finance error:', e); }
+            if (document.getElementById('operationalCost')) document.getElementById('operationalCost').innerText = '\u20B9' + opCost.toLocaleString();
+            if (document.getElementById('fuelCost')) document.getElementById('fuelCost').innerText = '\u20B9' + totalFuel.toLocaleString();
+            if (document.getElementById('maintenanceCost')) document.getElementById('maintenanceCost').innerText = '\u20B9' + totalMaint.toLocaleString();
+            if (document.getElementById('vehicleROI')) document.getElementById('vehicleROI').innerText = roi + '%';
+        } catch (e) { console.error('KPI Legacy Finance error:', e); }
     }
 
     if (document.readyState === 'loading') {

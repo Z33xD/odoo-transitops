@@ -745,10 +745,11 @@ table.data-table tr:last-child td {
 }
 
 .chart-card {
-    background: #111827;
-    border-radius: 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
     padding: 20px;
-    height: 350px;   /* controls chart size */
+    height: 350px;
 }
 
 .chart-card canvas {
@@ -756,41 +757,15 @@ table.data-table tr:last-child td {
     height: 260px !important;
 }
 
-.dashboard-layout{
-
-    display:grid;
-
-    grid-template-columns:280px 1fr 1fr;
-
-    gap:25px;
-
-    margin-top:30px;
-
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr 1fr;
+    gap: 25px;
+    margin-top: 30px;
 }
 
-.kpi-column{
-
-    display:grid;
-
-    grid-template-rows:repeat(4,1fr);
-
-    gap:20px;
-
-}
-.chart-card{
-
-    height:420px;
-
-    padding:20px;
-
-    border-radius:16px;
-
-    background:#111827;
-
-}
-
-.chart-card canvas{
-
-    height:340px !important;
-
+.kpi-column {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 20px;
 }
