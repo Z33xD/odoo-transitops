@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransitOps - Smart Transport Operations Platform</title>
+    <meta name="description" content="TransitOps Dashboard - Manage Fleet, Drivers, Safety, and Finance.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-wrapper">
+
+    <!-- --- Authentication Overlay --- -->
+    <div id="auth-overlay">
+        <div class="auth-container glass-panel">
+            <div class="auth-logo">
+                <!-- SVG Truck Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+            </div>
+            <h1 class="auth-title">TransitOps</h1>
+            <p class="auth-subtitle">Smart Transport Operations Platform</p>
+            
+            <form id="auth-form" class="auth-form" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label for="auth-email">Corporate Email</label>
+                    <div class="input-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <input type="email" id="auth-email" class="input-control" placeholder="name@transitops.com" required autocomplete="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="auth-password">Password</label>
+                    <div class="input-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="auth-password" class="input-control" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+                </div>
+                <button type="submit" id="auth-submit-btn" class="auth-btn">Sign In</button>
+            </form>
+
+            <div class="demo-credentials">
+                <p>Click credentials below to quick-fill:</p>
+                <code onclick="quickFill('manager@transitops.com')">Fleet Manager</code>
+                <code onclick="quickFill('driver@transitops.com')">Driver</code>
+                <code onclick="quickFill('safety@transitops.com')">Safety Officer</code>
+                <code onclick="quickFill('finance@transitops.com')">Financial Analyst</code>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- Persistent Navbar --- -->
+    <header id="persistent-navbar" class="glass-panel hidden">
+        <div class="nav-brand">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            <span>TransitOps</span>
+        </div>
+        <div class="nav-actions">
+            <div id="user-role-badge" class="role-badge">Loading...</div>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle light and dark mode">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            <button id="logout-button" class="logout-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- --- Workspace View Manager --- -->
+    <main id="workspace-container" class="hidden">
+
+        <!-- --- VIEW 1: FLEET MANAGER WORKSPACE --- -->
+        <section id="view-fleet-manager" class="workspace-view hidden">
+            <div class="workspace-header">
+                <div class="workspace-title">
+                    <h2>Fleet Manager Command</h2>
+                    <p>Manage vehicle registry and maintenance logs</p>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-card glass-panel">
+                    <span class="stat-label">Total Fleet Vehicles</span>
+                    <span id="fm-stat-fleet" class="stat-value">0</span>
+                    <span class="stat-desc">Active in platform</span>
+                </div>
+                <div class="stat-card glass-panel">
+                    <span class="stat-label">Vehicles In Shop</span>
+                    <span id="fm-stat-shop" class="stat-value">0</span>
+                    <span class="stat-desc">Undergoing maintenance</span>
+                </div>
+                <div class="stat-card glass-panel">
+                    <span class="stat-label">Available Vehicles</span>
+                    <span id="fm-stat-available" class="stat-value">0</span>
+                    <span class="stat-desc">Ready for dispatch</span>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="dashboard-grid">
+                <!-- Maintenance Form Panel -->
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                            </svg>
+                            Log Maintenance Work
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <form id="maintenance-form" class="panel-form" onsubmit="event.preventDefault();">
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label for="maintenance-vehicle">Vehicle to Service</label>
+                                <select id="maintenance-vehicle" class="input-control" style="padding-left: 14px;" required>
+                                    <option value="">Select vehicle...</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 24px;">
+                                <label for="maintenance-reason">Maintenance Action / Reason</label>
+                                <input type="text" id="maintenance-reason" class="input-control" style="padding-left: 14px;" placeholder="e.g. Engine tune-up, brake replacement" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                Log Maintenance & Send In Shop
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Maintenance Logs List -->
+                <div class="glass-panel" style="grid-column: span 1;">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            Service History Registry
+                        </h3>
+                    </div>
+                    <div class="panel-body data-table-wrapper" style="padding: 0; max-height: 280px; overflow-y: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Vehicle</th>
+                                    <th>Reason / Description</th>
+                                    <th>Logged On</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fleet-maintenance-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fleet Inventory Panel -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        Global Fleet Inventory Status
+                    </h3>
+                </div>
+                <div class="panel-body data-table-wrapper" style="padding: 0;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Registration</th>
+                                <th>Model Name</th>
+                                <th>Load Capacity</th>
+                                <th>Odometer (mi)</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fleet-vehicles-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- VIEW 2: DRIVER WORKSPACE --- -->
+        <section id="view-driver" class="workspace-view hidden">
+            <div class="workspace-header">
+                <div class="workspace-title">
+                    <h2>Driver Dispatch Portal</h2>
+                    <p id="driver-welcome-subtitle">Create dispatches, select vehicles/drivers and track routes</p>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Dispatch Form Panel -->
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            Plan New Dispatch
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <form id="dispatch-form" class="panel-form" onsubmit="event.preventDefault();">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dispatch-vehicle">Vehicle (Capacity)</label>
+                                    <select id="dispatch-vehicle" class="input-control" style="padding-left: 14px;" required>
+                                        <option value="">Select vehicle...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dispatch-driver">Driver (Status)</label>
+                                    <select id="dispatch-driver" class="input-control" style="padding-left: 14px;" required>
+                                        <option value="">Select driver...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dispatch-source">Source</label>
+                                    <input type="text" id="dispatch-source" class="input-control" style="padding-left: 14px;" placeholder="City A" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dispatch-destination">Destination</label>
+                                    <input type="text" id="dispatch-destination" class="input-control" style="padding-left: 14px;" placeholder="City B" required>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 24px;">
+                                <label for="dispatch-weight">Cargo Weight (lbs)</label>
+                                <input type="number" id="dispatch-weight" class="input-control" style="padding-left: 14px;" placeholder="e.g. 15000" min="1" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                Dispatch Route
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Trips Registry -->
+                <div class="glass-panel" style="grid-column: span 1;">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon>
+                                <line x1="9" y1="3" x2="9" y2="18"></line>
+                                <line x1="15" y1="6" x2="15" y2="21"></line>
+                            </svg>
+                            Trips Registry
+                        </h3>
+                    </div>
+                    <div class="panel-body data-table-wrapper" style="padding: 0; max-height: 380px; overflow-y: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Route</th>
+                                    <th>Cargo</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fleet-trips-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Driver Job Management -->
+                <div class="glass-panel" style="grid-column: span 1;">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            Your Assigned Trip
+                        </h3>
+                    </div>
+                    <div class="panel-body" id="driver-trip-container">
+                        <!-- Loaded dynamically based on logged in driver -->
+                    </div>
+                </div>
+
+                <!-- Simulation Visual Board -->
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                            </svg>
+                            Transit Route Monitor
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="map-simulator">
+                            <div class="map-route-line"></div>
+                            <div class="map-dot origin"></div>
+                            <div class="map-dot destination"></div>
+                            <div style="position: absolute; bottom: 12px; font-size: 0.8rem; background: var(--bg-surface-solid); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--glass-border);">
+                                GPS Live Sync Activated
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- VIEW 3: SAFETY OFFICER WORKSPACE --- -->
+        <section id="view-safety-officer" class="workspace-view hidden">
+            <div class="workspace-header">
+                <div class="workspace-title">
+                    <h2>Safety & Compliance Board</h2>
+                    <p>Track driver scores, certifications, and compliance standards</p>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Compliance and Audits list -->
+                <div class="glass-panel" style="grid-column: span 1;">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                            Safety Audit Alerts
+                        </h3>
+                    </div>
+                    <div class="panel-body" id="safety-alerts-container">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Driver Compliance Table -->
+                <div class="glass-panel" style="grid-column: span 2;">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            Driver Directory Certification Checklist
+                        </h3>
+                    </div>
+                    <div class="panel-body data-table-wrapper" style="padding: 0;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Driver Name</th>
+                                    <th>License Number</th>
+                                    <th>Expiration Date</th>
+                                    <th>Safety Score</th>
+                                    <th>Status State</th>
+                                </tr>
+                            </thead>
+                            <tbody id="safety-drivers-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- VIEW 4: FINANCIAL ANALYST WORKSPACE --- -->
+        <section id="view-financial-analyst" class="workspace-view hidden">
+            <div class="workspace-header">
+                <div class="workspace-title">
+                    <h2>Financial Operations Center</h2>
+                    <p>Track acquisition assets, load efficiencies, and operational metrics</p>
+                </div>
+            </div>
+
+            <!-- Financial Statistics -->
+            <div class="stats-bar">
+                <div class="stat-card glass-panel">
+                    <span class="stat-label">Total Assets Value</span>
+                    <span id="fin-stat-total-value" class="stat-value">$0.00</span>
+                    <span class="stat-desc">Sum of fleet acquisition costs</span>
+                </div>
+                <div class="stat-card glass-panel">
+                    <span class="stat-label">Total Load Transported</span>
+                    <span id="fin-stat-total-weight" class="stat-value">0 lbs</span>
+                    <span class="stat-desc">Accumulated cargo weight</span>
+                </div>
+                <div class="stat-card glass-panel">
+                    <span class="stat-label">Average Odometer Reading</span>
+                    <span id="fin-stat-avg-odometer" class="stat-value">0 mi</span>
+                    <span class="stat-desc">Mean mileage per vehicle</span>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Vehicle Asset Financials -->
+                <div class="glass-panel" style="grid-column: span 2;">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                            Asset Valuation & Depreciating Factors
+                        </h3>
+                    </div>
+                    <div class="panel-body data-table-wrapper" style="padding: 0;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Registration</th>
+                                    <th>Model</th>
+                                    <th>Acquisition Cost</th>
+                                    <th>Current Odometer</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fin-assets-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Load Efficiencies and Cost Estimates -->
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                            </svg>
+                            Load Capacity Efficiency Analysis
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="compliance-item" style="margin-bottom: 16px;">
+                            <div class="compliance-details">
+                                <div class="compliance-icon alert-success">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="compliance-info">
+                                    <h4>Total Active Routes</h4>
+                                    <p id="fin-active-routes-count">0 paths mapped</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="compliance-item" style="margin-bottom: 24px;">
+                            <div class="compliance-details">
+                                <div class="compliance-icon alert-info">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                    </svg>
+                                </div>
+                                <div class="compliance-info">
+                                    <h4>Avg. Cargo per Trip</h4>
+                                    <p id="fin-avg-cargo-weight">0 lbs average</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 16px; border-radius: var(--border-radius-sm); background: var(--primary-light); border: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+                            <strong>Note on cost factors:</strong> Fleet operations cost estimate is calculated dynamically based on a baseline rate ($1.25/mile) applied against active vehicle odometer readings.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UI Notification System -->
+    <div id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
