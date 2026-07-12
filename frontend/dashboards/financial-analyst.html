@@ -180,15 +180,16 @@
 
                 // --- Stats Bar ---
                 const totalAssetVal = vehicles.reduce((sum, v) => sum + v.acquisition_cost, 0);
-                const totalCargoWeight = trips.reduce((sum, t) => sum + t.cargo_weight, 0);
+                const totalCargoWeight = trips.filter(t => t.status === 'Completed').reduce((sum, t) => sum + t.cargo_weight, 0);
 
                 document.getElementById('fin-stat-total-value').innerText = `₹${totalAssetVal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                 document.getElementById('fin-stat-total-weight').innerText = `${totalCargoWeight.toLocaleString()} lbs`;
 
                 // Average Fuel Efficiency
-                const totalLitres = fuelLogs.reduce((s, f) => s + (f.quantity_liters || 0), 0);
-                const totalDistance = fuelLogs.reduce((s, f) => s + (f.odometer_at_fill || 0), 0);
-                const avgEfficiency = totalLitres > 0 ? (totalDistance / totalLitres).toFixed(1) : 0;
+                const completedTripsWithFuel = trips.filter(t => t.status === 'Completed' && (t.fuel_consumed || 0) > 0);
+                const totalDistance = completedTripsWithFuel.reduce((sum, t) => sum + (t.actual_distance || 0), 0);
+                const totalFuel = completedTripsWithFuel.reduce((sum, t) => sum + (t.fuel_consumed || 0), 0);
+                const avgEfficiency = totalFuel > 0 ? (totalDistance / totalFuel).toFixed(1) : 0;
                 document.getElementById('fin-stat-fuel-efficiency').innerText = `${avgEfficiency} km/L`;
 
                 // --- Asset Valuation Table ---

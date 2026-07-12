@@ -20,6 +20,14 @@ window.TransitOpsAPI = {
         return this.request('GET', '/api/drivers/');
     },
 
+    updateDriver(driverId, payload) {
+        return this.request('PUT', `/api/drivers/${driverId}`, payload);
+    },
+
+    deleteDriver(driverId) {
+        return this.request('DELETE', `/api/drivers/${driverId}`);
+    },
+
     getTrips() {
         return this.request('GET', '/api/trips/');
     },
@@ -34,6 +42,10 @@ window.TransitOpsAPI = {
 
     getExpenses() {
         return this.request('GET', '/api/expenses/');
+    },
+
+    getVehicleDocuments() {
+        return this.request('GET', '/api/vehicle-documents/');
     },
 
     dispatchTrip(source, destination, vehicleId, driverId, cargoWeight) {

@@ -2,4 +2,6 @@ database/transitops.db
 venv
 __pycache__/
 *.py[cod]
+venv/
 .env
+.DS_Store
