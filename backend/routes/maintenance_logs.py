@@ -53,6 +53,7 @@ def update_maintenance_log(id):
         existing = db.execute("SELECT * FROM maintenance_logs WHERE id = ?", (id,)).fetchone()
         if existing is None:
             return jsonify({'error': 'Not found'}), 404
+        new_status = data.get('status', existing['status'])
         db.execute(
             """UPDATE maintenance_logs SET
                vehicle_id = ?, description = ?, start_date = ?,
@@ -63,9 +64,14 @@ def update_maintenance_log(id):
              data.get('start_date', existing['start_date']),
              data.get('end_date', existing['end_date']),
              data.get('cost', existing['cost']),
-             data.get('status', existing['status']),
+             new_status,
              id)
         )
+        if new_status == 'Closed':
+            db.execute(
+                "UPDATE vehicles SET status = 'Available' WHERE id = (SELECT vehicle_id FROM maintenance_logs WHERE id = ?)",
+                (id,)
+            )
         row = db.execute("SELECT * FROM maintenance_logs WHERE id = ?", (id,)).fetchone()
     return jsonify(dict_from_row(row))
 
