@@ -497,10 +497,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Dash Grids */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    gap: 32px;
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:25px;
+
 }
 
 /* Component Geometry */
@@ -738,4 +742,55 @@ table.data-table tr:last-child td {
     .panel-form .form-row {
         grid-template-columns: 1fr;
     }
+}
+
+.chart-card {
+    background: #111827;
+    border-radius: 16px;
+    padding: 20px;
+    height: 350px;   /* controls chart size */
+}
+
+.chart-card canvas {
+    width: 100% !important;
+    height: 260px !important;
+}
+
+.dashboard-layout{
+
+    display:grid;
+
+    grid-template-columns:280px 1fr 1fr;
+
+    gap:25px;
+
+    margin-top:30px;
+
+}
+
+.kpi-column{
+
+    display:grid;
+
+    grid-template-rows:repeat(4,1fr);
+
+    gap:20px;
+
+}
+.chart-card{
+
+    height:420px;
+
+    padding:20px;
+
+    border-radius:16px;
+
+    background:#111827;
+
+}
+
+.chart-card canvas{
+
+    height:340px !important;
+
 }

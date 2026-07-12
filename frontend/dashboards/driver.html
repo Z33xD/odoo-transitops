@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TransitOps - Driver Route Portal</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="split-pane-layout">
 
@@ -57,7 +58,49 @@
                     <p id="driver-welcome-subtitle">Plan dispatches, select vehicles/drivers and track manifests</p>
                 </div>
             </div>
+<<<<<<< HEAD
 
+            <div class="dashboard-layout">
+                <!-- KPI Cards -->
+            <div class="kpi-container">
+
+                <div class="kpi-card">
+                    <h3>Assigned Trips</h3>
+                    <h1 id="assignedTrips">0</h1>
+                </div>
+
+                <div class="kpi-card">
+                    <h3>Completed Trips</h3>
+                    <h1 id="completedTrips">0</h1>
+                </div>
+
+                <div class="kpi-card">
+                    <h3>Current Vehicle</h3>
+                    <h1 id="currentVehicle">-</h1>
+                </div>
+
+                <div class="kpi-card">
+                    <h3>Safety Score</h3>
+                    <h1 id="driverSafetyScore">0</h1>
+                </div>
+
+            </div>
+            <!--charts-->
+                <div class="chart-card">
+                    <h3>My Trip Progress</h3>
+                    <canvas id="driverTripChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Distance Travelled</h3>
+                    <canvas id="distanceChart"></canvas>
+                </div>
+
+            </div>
+            
+=======
+
+>>>>>>> bdb4ce00bf7e4eed12cc7e51dda112d7d76bd60c
             <!-- Content Grid -->
             <div class="dashboard-grid">
                 <!-- Dispatch Form Panel -->
@@ -265,5 +308,11 @@
             });
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="../js/dashboard_kpi.js"></script>
+
+<script src="../js/dashboard_charts.js"></script>
 </body>
 </html>
+

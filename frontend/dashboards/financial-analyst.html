@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TransitOps - Financial Operations Console</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="split-pane-layout">
 
@@ -58,7 +59,12 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
+            <!--KPI Cards-->
+            <div class="dashboard-layout">
+=======
             <!-- KPI Cards -->
+>>>>>>> bdb4ce00bf7e4eed12cc7e51dda112d7d76bd60c
             <div class="kpi-container">
                 <div class="kpi-card">
                     <h3>Total Fuel Costs</h3>
@@ -77,8 +83,25 @@
                     <h1 id="cumulativeOverhead">₹0</h1>
                 </div>
             </div>
+<<<<<<< HEAD
+            <!--charts-->
+
+                <div class="chart-card">
+                    <h3>Expense Distribution</h3>
+                    <canvas id="expenseChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Monthly Operational Cost</h3>
+                    <canvas id="operationalCostChart"></canvas>
+                </div>
+
+            </div>
+            <!-- Financial Statistics -->
+=======
 
             <!-- Stats Bar -->
+>>>>>>> bdb4ce00bf7e4eed12cc7e51dda112d7d76bd60c
             <div class="stats-bar">
                 <div class="stat-card">
                     <span class="stat-label">Total Assets Value</span>
@@ -197,5 +220,11 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="../js/dashboard_kpi.js"></script>
+
+<script src="../js/dashboard_charts.js"></script>
 </body>
 </html>
+
