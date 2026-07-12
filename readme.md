@@ -56,7 +56,7 @@ Follow these steps to initialize the relational database and populate it with th
 
 ```bash
 # Clone the repository and navigate to the project root
-git clone [https://github.com/Z33xD/odoo-transitops.git](https://github.com/Z33xD/odoo-transitops.git)
+git clone https://github.com/Z33xD/odoo-transitops.git
 cd odoo-transitops
 
 # Clear lingering runtime database instances if present
@@ -69,13 +69,15 @@ sqlite3 database/transitops.db < database/schema.sql
 sqlite3 database/transitops.db < database/seed.sql
 
 # Setup Environment
+python -m venv .venv
 source .venv/bin/activate
+pip install -r backend/requirements.txt 
 python3 backend/app.py
 
 # Start the server
-python3 -m http.server 8000
+python3 -m http.server 5000
 
 # Go To Localhost
 
-http://localhost:8000
+http://localhost:5000
 ```
