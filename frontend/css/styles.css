@@ -7,25 +7,25 @@
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
     /* Light Theme (Strict Tech Slate) */
-    --bg-primary: #f8fafc;
-    --bg-workspace: #f8fafc;
+    --bg-primary: #F8FAFC;
+    --bg-workspace: #F8FAFC;
     --bg-surface: #ffffff;
     --bg-surface-solid: #ffffff;
-    --text-primary: #0f172a;
+    --text-primary: #334155;
     --text-secondary: #475569;
     --text-muted: #94a3b8;
+    
+    --sidebar-bg: #0F172A; /* Corporate Navy Blue */
+    --sidebar-text: #F8FAFC;
     
     --primary: #2563eb;
     --primary-hover: #1d4ed8;
     --primary-light: #eff6ff;
-    --primary-glow: transparent;
     
     --accent: #0891b2;
     --accent-light: #ecfeff;
     
     --border-color: #e2e8f0;
-    --glass-border: #e2e8f0;
-    --glass-border-focus: #2563eb;
     
     --card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -42,7 +42,6 @@
     --danger-bg: #fef2f2;
     --info-bg: #eff6ff;
 
-    --glass-blur: none;
     --border-radius-sm: 4px;
     --border-radius-md: 4px;
     --border-radius-lg: 4px;
@@ -51,26 +50,26 @@
 }
 
 [data-theme="dark"] {
-    /* Dark Theme Override (Obsidian Matte) */
-    --bg-primary: #0b0f19;
-    --bg-workspace: #0b0f19;
-    --bg-surface: #111827;
-    --bg-surface-solid: #1f2937;
-    --text-primary: #f9fafb;
+    /* Dark Theme Override (Corporate Slate) */
+    --bg-primary: #0F172A;
+    --bg-workspace: #0F172A;
+    --bg-surface: #1E293B;
+    --bg-surface-solid: #1E293B;
+    --text-primary: #F8FAFC;
     --text-secondary: #9ca3af;
     --text-muted: #6b7280;
+    
+    --sidebar-bg: #0b0f19; /* Deeper dark for sidebar */
+    --sidebar-text: #F8FAFC;
     
     --primary: #3b82f6;
     --primary-hover: #60a5fa;
     --primary-light: rgba(59, 130, 246, 0.08);
-    --primary-glow: transparent;
     
     --accent: #06b6d4;
     --accent-light: rgba(6, 182, 212, 0.08);
     
-    --border-color: #1f2937;
-    --glass-border: #1f2937;
-    --glass-border-focus: #3b82f6;
+    --border-color: #334155;
     
     --card-shadow: none;
     --shadow-sm: none;
@@ -126,6 +125,37 @@ h1, h2, h3, h4, h5, h6 {
 
 .glass-panel:hover {
     box-shadow: var(--shadow-md);
+}
+
+/* --- Split-Pane Layout --- */
+.split-pane-layout {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    width: 100vw;
+}
+
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* --- Authentication Overlay / Custom Container --- */
@@ -283,46 +313,31 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--primary);
 }
 
-/* --- Persistent Navbar --- */
-#persistent-navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    z-index: 900;
-    border-radius: 0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.nav-brand {
+/* --- Sidebar Nav Adjustments --- */
+.sidebar .nav-brand {
     display: flex;
     align-items: center;
     gap: 8px;
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 1.25rem;
-    color: var(--text-primary);
+    color: var(--sidebar-text);
+    margin-bottom: 40px;
+    padding-left: 8px;
 }
 
-.nav-brand svg {
+.sidebar .nav-brand svg {
     width: 24px;
     height: 24px;
     color: var(--primary);
 }
 
-.nav-actions {
+.sidebar .nav-actions {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     gap: 12px;
+    margin-top: auto;
 }
 
 .role-badge {
@@ -412,7 +427,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* --- Workspace View Manager --- */
 #workspace-container {
-    margin-top: 64px;
     padding: 32px;
     flex-grow: 1;
     display: flex;
@@ -707,40 +721,6 @@ table.data-table tr:last-child td {
 .toast.toast-danger { border-left-color: var(--color-danger); }
 .toast.toast-success { border-left-color: var(--color-success); }
 .toast.toast-warning { border-left-color: var(--color-warning); }
-
-/* Flat Map Simulator */
-.map-simulator {
-    height: 280px;
-    border-radius: var(--border-radius-sm);
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.map-route-line {
-    position: absolute;
-    width: 60%;
-    height: 2px;
-    background: var(--border-color);
-    border-radius: 0;
-    transform: rotate(-15deg);
-}
-
-.map-dot {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: var(--primary);
-    border: 2px solid var(--bg-surface);
-    border-radius: 50%;
-}
-
-.map-dot.origin { left: 20%; top: 60%; }
-.map-dot.destination { right: 20%; top: 40%; }
 
 /* --- Utility Hidden Class --- */
 .hidden {
