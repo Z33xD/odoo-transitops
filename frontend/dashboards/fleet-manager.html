@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TransitOps - Fleet Management Console</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -59,6 +60,7 @@
             </div>
 
             <!-- KPI Cards -->
+            <div class="dashboard-layout">
             <div class="kpi-container">
 
                 <div class="kpi-card">
@@ -79,6 +81,20 @@
                 <div class="kpi-card">
                     <h3>Fleet Utilization</h3>
                     <h1 id="fleetUtilization">0%</h1>
+                </div>
+
+            </div>
+
+            <!--charts-->
+
+                <div class="chart-card">
+                    <h3>Vehicle Status Distribution</h3>
+                    <canvas id="vehicleStatusChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Trip Status Overview</h3>
+                    <canvas id="tripStatusChart"></canvas>
                 </div>
 
             </div>
@@ -289,5 +305,11 @@
             });
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="../js/dashboard_kpi.js"></script>
+
+<script src="../js/dashboard_charts.js"></script>
 </body>
 </html>
+

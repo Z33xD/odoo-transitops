@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TransitOps - Safety & Compliance Board</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -59,6 +60,7 @@
             </div>
 
             <!-- KPI Cards -->
+             <div class="dashboard-layout">
             <div class="kpi-container">
 
                 <div class="kpi-card">
@@ -79,6 +81,19 @@
                 <div class="kpi-card">
                     <h3>Average Safety Score</h3>
                     <h1 id="averageSafetyScore">0</h1>
+                </div>
+
+            </div>
+            <!--charts-->
+
+                <div class="chart-card">
+                    <h3>Driver Status</h3>
+                    <canvas id="driverStatusChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <h3>License Expiry Timeline</h3>
+                    <canvas id="licenseExpiryChart"></canvas>
                 </div>
 
             </div>
@@ -241,5 +256,11 @@
             });
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="../js/dashboard_kpi.js"></script>
+
+<script src="../js/dashboard_charts.js"></script>
 </body>
 </html>
+
