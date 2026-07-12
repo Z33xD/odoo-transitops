@@ -1,46 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* --- Enterprise Design Tokens & Theme Variables --- */
 :root {
-    /* Fonts - Strict sans-serif */
-    --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* --- NEW Light Theme (Oceanic Tech) --- */
+    /* Light, cool sea-foam-inspired surfaces */
 
-    /* Light Theme (Strict Tech Slate) */
-    --bg-primary: #F8FAFC;
-    --bg-workspace: #F8FAFC;
-    --bg-surface: #ffffff;
+    --font-body: 'Montserrat', sans-serif;
+    --font-heading: 'Montserrat', sans-serif;
+    
+    --bg-primary: #F0F4F4; /* Very Pale Aqua-Slate (inspired by Soft Cloud Grey) */
+    --bg-workspace: #F0F4F4;
+    --bg-surface: #ffffff; /* Clean white card surfaces */
     --bg-surface-solid: #ffffff;
-    --text-primary: #334155;
-    --text-secondary: #475569;
-    --text-muted: #94a3b8;
     
-    --sidebar-bg: #F1F5F9; /* Light Slate Gray */
-    --sidebar-text: #334155; /* Dark Slate Gray */
+    /* Strict tech typography, now in a deep cool slate (like deep sea) */
+    --text-primary: #2C3A47; /* Deeper Cool Gray-Blue */
+    --text-secondary: #56697D; /* Medium Ocean Slate */
+    --text-muted: #9BB2BE; /* Softened Sea-mist Gray */
     
-    --primary: #2563eb;
-    --primary-hover: #1d4ed8;
-    --primary-light: #eff6ff;
+    /* Sidebar using a muted, pale green-blue (like Pale Sage) */
+    --sidebar-bg: #DCE5E8; /* Pale Ocean Mist (inspired by Misty White/Pale Sage) */
+    --sidebar-text: #2C3A47; /* Matching text-primary */
     
-    --accent: #0891b2;
-    --accent-light: #ecfeff;
+    /* Teal Primary Brand Colors (inspired by Dusty Turquoise and Deep Tranquil Teal) */
+    --primary: #297376; /* Dusty Turquoise */
+    --primary-hover: #195E60; /* Darker, focused Teal */
+    --primary-light: #E0F2F2; /* Very pale Teal wash (for selections/hovers) */
     
-    --border-color: #e2e8f0;
+    /* Ocean-Blue Accent Colors (inspired by Cadet Blue and Soft Seafoam) */
+    --accent: #5C9396; /* Soft Seafoam */
+    --accent-light: #C1D9DE; /* Pale Ice Blue wash */
     
+    /* Cool slate borders */
+    --border-color: #CBD5DF; /* Light Cool Blue-Gray */
+    
+    /* Maintained strict shadows and border radius */
     --card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     
-    /* Indicator States (Enterprise flat tones) */
-    --color-success: #16a34a;
-    --color-warning: #d97706;
-    --color-danger: #dc2626;
-    --color-info: #2563eb;
+    /* -- Indicator States (Enterprise flat tones, re-colored to align) -- */
+    --color-success: #90b8b3; /* Teal-Green Success */
+    --color-warning: #e0d1a9; /* Amber-Teal Warmth (maintained for contrast) */
+    --color-danger: #d38181; /* Standard Red for utility */
+    --color-info: #8ac1cf; /* Richer Aqua Blue (kept for contrast) */
     
-    --success-bg: #f0fdf4;
-    --warning-bg: #fffbeb;
-    --danger-bg: #fef2f2;
-    --info-bg: #eff6ff;
+    --success-bg: #ECFDF5;
+    --warning-bg: #FFFBEB;
+    --danger-bg: #FEF2F2;
+    --info-bg: #ECFEFF;
 
     --border-radius-sm: 4px;
     --border-radius-md: 4px;
@@ -50,42 +58,51 @@
 }
 
 [data-theme="dark"] {
-    /* Dark Theme Override (Corporate Slate) */
-    --bg-primary: #0F172A;
-    --bg-workspace: #0F172A;
-    --bg-surface: #1E293B;
-    --bg-surface-solid: #1E293B;
-    --text-primary: #F8FAFC;
-    --text-secondary: #9ca3af;
-    --text-muted: #6b7280;
+    /* --- NEW Dark Theme (Deep Sea-Floor Tech) --- */
+    /* Surfaces using deep teals and rich slates (inspired by Midnight Teal) */
+    --bg-primary: #0D161A; /* Deepest Midnight Ocean (like Midnight Teal) */
+    --bg-workspace: #0D161A;
+    --bg-surface: #1B292E; /* Deep Sea Slate (inspired by Harbor/Midnight) */
+    --bg-surface-solid: #1B292E;
     
-    --sidebar-bg: #0b0f19; /* Deeper dark for sidebar */
-    --sidebar-text: #F8FAFC;
+    /* Re-colored text to be very clear but cool (like Pale Ice Blue) */
+    --text-primary: #DCE7EB; /* Lightest cool gray-blue (Pale Ice Blue) */
+    --text-secondary: #9BB2BE; /* Medium cool slate (Softened Sea-mist) */
+    --text-muted: #627F8C; /* Duller sea slate (like Dusty Blue) */
     
-    --primary: #3b82f6;
-    --primary-hover: #60a5fa;
-    --primary-light: rgba(59, 130, 246, 0.08);
+    /* Deeper dark for sidebar */
+    --sidebar-bg: #070B0E; /* Even deeper sea-floor dark */
+    --sidebar-text: #DCE7EB;
     
-    --accent: #06b6d4;
-    --accent-light: rgba(6, 182, 212, 0.08);
+    /* Primary Teal colors (inspired by Ocean Teal and Deep Tranquil Teal) */
+    --primary: #215E68; /* Ocean Teal */
+    --primary-hover: #297376; /* Brightened Teal (for contrast) */
+    --primary-light: rgba(41, 115, 118, 0.12); /* Pale Teal wash */
     
-    --border-color: #334155;
+    /* Accent Teal colors (inspired by Soft Seafoam and Cadet Blue) */
+    --accent: #5F9EA0; /* Cadet Blue */
+    --accent-light: rgba(95, 158, 160, 0.12); /* Cadet Blue wash */
     
+    /* Borders using Deep Ocean Slates */
+    --border-color: #2D3E45; /* Medium-Dark Deep Sea Slate */
+    
+    /* Maintained shadows */
     --card-shadow: none;
     --shadow-sm: none;
     --shadow-md: none;
     
-    /* Indicator States */
-    --color-success: #34d399;
-    --color-warning: #fbbf24;
-    --color-danger: #f87171;
-    --color-info: #60a5fa;
+    /* -- Indicator States -- */
+    --color-success: #90b8b3; /* Teal-Green Success */
+    --color-warning: #e0d1a9; /* Amber-Teal Warmth (maintained for contrast) */
+    --color-danger: #d38181; /* Standard Red for utility */
+    --color-info: #8ac1cf; /* Brighter Cyan-Aqua (maintained for utility) */
     
-    --success-bg: rgba(52, 211, 153, 0.08);
-    --warning-bg: rgba(251, 191, 36, 0.08);
+    --success-bg: rgba(66, 201, 183, 0.08);
+    --warning-bg: rgba(245, 158, 11, 0.08);
     --danger-bg: rgba(248, 113, 113, 0.08);
-    --info-bg: rgba(96, 165, 250, 0.08);
+    --info-bg: rgba(6, 182, 212, 0.08);
 }
+
 
 /* --- Base Styles & Reset --- */
 * {
