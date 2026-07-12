@@ -93,8 +93,6 @@ window.initCommonLayout = function() {
     // 4. Restructure Sidebar Element Ordering
     const sidebar = document.getElementById('persistent-navbar');
     if (sidebar) {
-        sidebar.style.position = 'relative';
-
         // TOP RIGHT: Position the Theme Toggle button as a flat absolute utility icon
         const activeThemeBtn = document.getElementById('theme-toggle');
         if (activeThemeBtn) {
@@ -148,6 +146,10 @@ window.initCommonLayout = function() {
             bottomGroup.style.display = 'flex';
             bottomGroup.style.flexDirection = 'column';
             bottomGroup.style.gap = '8px';
+            bottomGroup.style.position = 'sticky';
+            bottomGroup.style.bottom = '0';
+            bottomGroup.style.background = 'var(--sidebar-bg)';
+            bottomGroup.style.zIndex = '1';
 
             const userBadge = document.createElement('div');
             userBadge.id = 'user-role-badge';

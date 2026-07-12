@@ -145,8 +145,9 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
     padding: 24px 16px;
     height: 100vh;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
@@ -172,6 +173,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--bg-primary);
     min-height: 100vh;
     overflow-x: hidden;
+    margin-left: 250px;
 }
 
 /* --- Authentication Overlay / Custom Container --- */
