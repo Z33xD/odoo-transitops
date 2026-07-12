@@ -69,5 +69,10 @@ window.TransitOpsAPI = {
         return this.request('PUT', `/api/maintenance-logs/${logId}`, {
             status: 'Closed'
         });
+    },
+
+    triggerReminders(force = false) {
+        const endpoint = force ? '/api/reminders/trigger-force' : '/api/reminders/trigger';
+        return this.request('POST', endpoint);
     }
 };

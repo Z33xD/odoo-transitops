@@ -24,7 +24,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 from database import get_db
-from config import SMTP_SERVER, SMTP_PORT, EMAIL_USER, EMAIL_PASSWORD, EMAIL_FROM
+from config import SMTP_SERVER, SMTP_PORT, EMAIL_USER, EMAIL_PASSWORD, EMAIL_FROM, EMAIL_TEST_TO
 
 logger = logging.getLogger(__name__)
 
@@ -227,11 +227,16 @@ def _get_active_maintenance() -> list[dict]:
 
 def send_email(to_emails: list[str] | str, subject: str, html_body: str) -> bool:
     if not EMAIL_USER or not EMAIL_PASSWORD:
-        logger.warning("EMAIL_USER / EMAIL_PASSWORD not set — skipping send.")
-        return False
+        logger.info("[DEMO] Would send: %s  →  %s", subject, to_emails)
+        return True  # simulated success for demo
 
     if isinstance(to_emails, str):
         to_emails = [to_emails]
+
+    # EMAIL_TEST_TO overrides all recipients (handy for demos)
+    if EMAIL_TEST_TO:
+        to_emails = [EMAIL_TEST_TO]
+        subject = f"[TEST → {EMAIL_TEST_TO}] {subject}"
 
     msg = MIMEMultipart("alternative")
     msg["From"] = EMAIL_FROM
@@ -399,9 +404,11 @@ def trigger_all_reminders(force: bool = False) -> dict:
         dict with keys 'license_reminders', 'document_reminders',
         'maintenance_reminders', each containing a list of sent-item dicts.
     """
+    email_ok = bool(EMAIL_USER and EMAIL_PASSWORD)
     logger.info("=" * 55)
     logger.info("  🚛 TRANSITOPS — EMAIL REMINDERS")
     logger.info("  Mode: %s", "FORCE (demo)" if force else "Normal thresholds")
+    logger.info("  Email: %s", "LIVE (sending via SMTP)" if email_ok else "DEMO (simulated — no credentials)")
     logger.info("=" * 55)
 
     results = {

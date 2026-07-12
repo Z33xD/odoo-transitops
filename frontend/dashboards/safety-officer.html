@@ -83,6 +83,13 @@
                     <h2>Safety &amp; Compliance Board</h2>
                     <p>Audit commercial licensing, safety margins, and compliance markers</p>
                 </div>
+                <button id="trigger-reminders-btn" class="btn btn-primary" style="display:flex;align-items:center;gap:8px;padding:10px 20px;font-size:0.9rem">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    Send Email Reminders
+                </button>
             </div>
 
             <!-- KPI Cards -->
@@ -219,6 +226,7 @@
             const session = window.checkSession('Safety Officer');
             if (session) {
                 renderDashboard();
+                setupRemindersButton();
             }
         });
 
@@ -474,6 +482,37 @@
         window.closeResolutionModal = function() {
             document.getElementById('resolution-modal-root').innerHTML = '';
         };
+
+        function setupRemindersButton() {
+            const btn = document.getElementById('trigger-reminders-btn');
+            if (!btn) return;
+            btn.addEventListener('click', async () => {
+                btn.disabled = true;
+                btn.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite">⟳</span> Sending...';
+                try {
+                    const res = await window.TransitOpsAPI.triggerReminders(true);
+                    const total = res.total_sent || 0;
+                    const details = [];
+                    if (res.details) {
+                        for (const [type, items] of Object.entries(res.details)) {
+                            if (items.length) details.push(`${items.length} ${type.replace('_', ' ')}`);
+                        }
+                    }
+                    showToast(`✅ ${total} reminder${total !== 1 ? 's' : ''} sent! (${details.join(', ') || 'none matched'})`, 'success');
+                } catch (err) {
+                    showToast('❌ ' + (err.message || 'Failed to send reminders'), 'danger');
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        Send Email Reminders
+                    `;
+                }
+            });
+        }
 
         window.confirmResolution = function(alertIdx) {
             const textEl = document.getElementById('resolution-text');

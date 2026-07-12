@@ -1,6 +1,9 @@
 import os
+from dotenv import load_dotenv
 from flask import Flask, send_from_directory
 from flask_cors import CORS
+
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 from routes.roles import bp as roles_bp
 from routes.users import bp as users_bp
