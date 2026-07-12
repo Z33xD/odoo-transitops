@@ -103,10 +103,10 @@ TransitOps/
 - Chart.js
 
 ### Backend
-- Python
+- Python (Flask)
 
 ### Database
-- PostgreSQL
+- SQLite3
 
 ### Authentication
 - Role-Based Access Control (RBAC)
