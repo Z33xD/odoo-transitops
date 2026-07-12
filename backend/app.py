@@ -12,6 +12,7 @@ from routes.fuel_logs import bp as fuel_logs_bp
 from routes.expenses import bp as expenses_bp
 from routes.vehicle_documents import bp as vehicle_documents_bp
 from routes.auth import bp as auth_bp
+from routes.reminders import bp as reminders_bp
 
 FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend')
 
@@ -30,6 +31,7 @@ def create_app():
     app.register_blueprint(expenses_bp)
     app.register_blueprint(vehicle_documents_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(reminders_bp)
 
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
