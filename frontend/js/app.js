@@ -412,7 +412,7 @@ window.initSidebarCalendar = function() {
                     type: 'trip',
                     status: t.status,
                     severity: isPast ? 'past' : 'info',
-                    text: `🚚 Dispatch: ${t.source} to ${t.destination} [${t.status}]`
+                    text: `Dispatch: ${t.source} to ${t.destination} [${t.status}]`
                 });
             }
         });
@@ -427,7 +427,7 @@ window.initSidebarCalendar = function() {
                     type: 'maintenance',
                     status: l.status || 'Open',
                     severity: isPast ? 'past' : 'info',
-                    text: `🔧 Shop Service: Vehicle #${l.vehicle_id} - ${l.description} [${l.status || 'Open'}]`
+                    text: `Shop Service: Vehicle #${l.vehicle_id} - ${l.description} [${l.status || 'Open'}]`
                 });
             }
         });
@@ -452,7 +452,7 @@ window.initSidebarCalendar = function() {
                 eventDict[dateKey].push({
                     type: 'compliance',
                     severity: sev,
-                    text: `⚠️ Expiry Warning: ${d.document_type} due [${sev === 'danger' ? 'EXPIRED' : 'EXPIRING'}]`
+                    text: `Expiry Warning: ${d.document_type} due [${sev === 'danger' ? 'EXPIRED' : 'EXPIRING'}]`
                 });
             }
         });
@@ -477,7 +477,7 @@ window.initSidebarCalendar = function() {
                 eventDict[dateKey].push({
                     type: 'compliance',
                     severity: sev,
-                    text: `👤 Driver Alert: ${d.name} CDL [${sev === 'danger' ? 'RED WARNING' : 'YELLOW WARNING'}]`
+                    text: `Driver Alert: ${d.name} CDL [${sev === 'danger' ? 'RED WARNING' : 'YELLOW WARNING'}]`
                 });
             }
         });
