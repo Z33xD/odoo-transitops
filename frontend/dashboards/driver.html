@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="../css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body class="split-pane-layout">
 
     <!-- --- Persistent Navbar --- -->
-    <header id="persistent-navbar" class="glass-panel">
+    <aside id="persistent-navbar" class="sidebar">
         <div class="nav-brand">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
@@ -47,10 +47,10 @@
                 Logout
             </button>
         </div>
-    </header>
+    </aside>
 
     <!-- --- Workspace View Container --- -->
-    <main id="workspace-container">
+    <main id="workspace-container" class="main-content">
         <section id="view-driver" class="workspace-view">
             <div class="workspace-header">
                 <div class="workspace-title">
@@ -58,6 +58,7 @@
                     <p id="driver-welcome-subtitle">Plan dispatches, select vehicles/drivers and track manifests</p>
                 </div>
             </div>
+<<<<<<< HEAD
 
             <div class="dashboard-layout">
                 <!-- KPI Cards -->
@@ -97,6 +98,9 @@
 
             </div>
             
+=======
+
+>>>>>>> bdb4ce00bf7e4eed12cc7e51dda112d7d76bd60c
             <!-- Content Grid -->
             <div class="dashboard-grid">
                 <!-- Dispatch Form Panel -->
@@ -128,17 +132,29 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="dispatch-source">Source</label>
-                                    <input type="text" id="dispatch-source" class="input-control" style="padding-left: 14px;" placeholder="City A" required>
+                                    <label for="dispatch-source">Source Hub</label>
+                                    <select id="dispatch-source" class="input-control" style="padding-left: 14px;" required>
+                                        <option value="">Select source...</option>
+                                        <option value="Bengaluru Warehouse">Bengaluru Warehouse</option>
+                                        <option value="Mumbai Hub">Mumbai Hub</option>
+                                        <option value="Delhi Distribution Center">Delhi Distribution Center</option>
+                                        <option value="Chennai Port">Chennai Port</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="dispatch-destination">Destination</label>
-                                    <input type="text" id="dispatch-destination" class="input-control" style="padding-left: 14px;" placeholder="City B" required>
+                                    <label for="dispatch-destination">Destination Hub</label>
+                                    <select id="dispatch-destination" class="input-control" style="padding-left: 14px;" required>
+                                        <option value="">Select destination...</option>
+                                        <option value="Bengaluru Warehouse">Bengaluru Warehouse</option>
+                                        <option value="Mumbai Hub">Mumbai Hub</option>
+                                        <option value="Delhi Distribution Center">Delhi Distribution Center</option>
+                                        <option value="Chennai Port">Chennai Port</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 24px;">
                                 <label for="dispatch-weight">Cargo Weight (lbs)</label>
-                                <input type="number" id="dispatch-weight" class="input-control" style="padding-left: 14px;" placeholder="e.g. 15000" min="1" required>
+                                <input type="number" id="dispatch-weight" class="input-control" style="padding-left: 14px;" placeholder="e.g. 15000" min="0" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
                             </div>
                             <button type="submit" class="btn btn-primary" style="width: 100%;">
                                 Dispatch Route
@@ -159,60 +175,20 @@
                             Trips Registry
                         </h3>
                     </div>
-                    <div class="panel-body data-table-wrapper" style="padding: 0; max-height: 280px; overflow-y: auto;">
+                    <div class="panel-body data-table-wrapper" style="padding: 0; max-height: 400px; overflow-y: auto;">
                         <table class="data-table">
                             <thead>
                                 <tr>
                                     <th>Route</th>
                                     <th>Cargo</th>
                                     <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="fleet-trips-table-body">
                                 <!-- Populated dynamically -->
                             </tbody>
                         </table>
-                    </div>
-                </div>
-
-                <!-- Driver Job Management -->
-                <div class="glass-panel">
-                    <div class="panel-header">
-                        <h3 class="panel-title">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                            </svg>
-                            Your Assigned Trip
-                        </h3>
-                    </div>
-                    <div class="panel-body" id="driver-trip-container">
-                        <!-- Loaded dynamically -->
-                    </div>
-                </div>
-
-                <!-- Simulation Visual Board -->
-                <div class="glass-panel">
-                    <div class="panel-header">
-                        <h3 class="panel-title">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-                            </svg>
-                            Transit Route Monitor
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="map-simulator">
-                            <div class="map-route-line"></div>
-                            <div class="map-dot origin"></div>
-                            <div class="map-dot destination"></div>
-                            <div style="position: absolute; bottom: 12px; font-size: 0.8rem; background: var(--bg-surface-solid); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--border-color);">
-                                GPS Live Sync Activated
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -225,6 +201,7 @@
     <!-- Scripts Injection -->
     <script src="../js/api.js"></script>
     <script src="../js/app.js"></script>
+    <script src="../js/dashboard_kpi.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const session = window.checkSession('Driver');
@@ -234,44 +211,52 @@
             }
         });
 
-        function renderDashboard(session) {
-            document.getElementById('driver-welcome-subtitle').innerText = `Welcome, ${session.name} | Active Driver & Dispatcher`;
+        async function renderDashboard(session) {
+            try {
+                document.getElementById('driver-welcome-subtitle').innerText = `Welcome, ${session.name} | Active Driver & Dispatcher`;
 
-            // Populate Dropdowns
-            window.TransitOpsAPI.getVehicles().then(vehicles => {
+                const [vehicles, drivers, trips] = await Promise.all([
+                    window.TransitOpsAPI.getVehicles(),
+                    window.TransitOpsAPI.getDrivers(),
+                    window.TransitOpsAPI.getTrips()
+                ]);
+
+                // Populate Vehicle Dropdown
                 const vehicleSelect = document.getElementById('dispatch-vehicle');
                 vehicleSelect.innerHTML = '<option value="">Select vehicle...</option>';
                 vehicles.forEach(v => {
-                    if (v.status !== 'In Shop' && v.status !== 'Retired') {
-                        const isAssigned = v.status === 'On Trip';
+                    if (v.status === 'Available') {
                         vehicleSelect.innerHTML += `
-                            <option value="${v.id}" ${isAssigned ? 'disabled' : ''}>
-                                ${v.registration_number} - ${v.name_model} (${v.max_load_capacity.toLocaleString()} lbs) [${v.status}]
+                            <option value="${v.id}">
+                                ${v.registration_number} - ${v.name_model} (${v.max_load_capacity.toLocaleString()} lbs)
                             </option>`;
                     }
                 });
-            });
 
-            window.TransitOpsAPI.getDrivers().then(drivers => {
+                // Populate Driver Dropdown
                 const driverSelect = document.getElementById('dispatch-driver');
                 driverSelect.innerHTML = '<option value="">Select driver...</option>';
                 drivers.forEach(d => {
-                    if (d.status !== 'Suspended' && d.status !== 'Off Duty') {
-                        const isAssigned = d.status === 'On Trip';
+                    if (d.status === 'Available') {
                         driverSelect.innerHTML += `
-                            <option value="${d.id}" ${isAssigned ? 'disabled' : ''}>
-                                ${d.name} (Score: ${d.safety_score}) [${d.status}]
+                            <option value="${d.id}">
+                                ${d.name} (Score: ${d.safety_score})
                             </option>`;
                     }
                 });
-            });
 
-            // Populate Trips Registry
-            window.TransitOpsAPI.getTrips().then(trips => {
+                // Populate Trips Registry with Action button for Dispatched trips
                 const tripsTableBody = document.getElementById('fleet-trips-table-body');
                 tripsTableBody.innerHTML = '';
                 const sortedTrips = [...trips].reverse();
                 sortedTrips.forEach(t => {
+                    let actionHtml = '';
+                    if (t.status === 'Dispatched') {
+                        actionHtml = `<button onclick="confirmDelivered(${t.id})" class="btn btn-primary" style="padding: 4px 10px; font-size: 0.75rem;">Confirm Material Delivered</button>`;
+                    } else {
+                        actionHtml = `<span style="font-size: 0.8rem; color: var(--text-muted);">—</span>`;
+                    }
+
                     tripsTableBody.innerHTML += `
                         <tr>
                             <td>
@@ -280,90 +265,46 @@
                             </td>
                             <td style="font-size:0.85rem;">${t.cargo_weight.toLocaleString()} lbs</td>
                             <td>${window.getStatusPillHTML(t.status)}</td>
+                            <td>${actionHtml}</td>
                         </tr>`;
                 });
 
-                // Render Assigned Trip for this Driver (Alex Kumar - id: 1)
-                const activeTrip = trips.find(t => t.driver_id === session.driverId && (t.status === 'Dispatched' || t.status === 'Draft'));
-                const tripContainer = document.getElementById('driver-trip-container');
-
-                if (activeTrip) {
-                    window.TransitOpsAPI.getVehicles().then(vehicles => {
-                        const vehicle = vehicles.find(v => v.id === activeTrip.vehicle_id);
-                        tripContainer.innerHTML = `
-                            <div style="display: flex; flex-direction: column; gap: 16px;">
-                                <div style="padding: 16px; border-radius: var(--border-radius-sm); background: var(--primary-light); border: 1px solid var(--border-color);">
-                                    <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 4px;">Route Assignment</div>
-                                    <div style="font-size: 1.4rem; font-weight: 800; font-family: var(--font-heading);">${activeTrip.source} &rarr; ${activeTrip.destination}</div>
-                                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Trip Tracker Reference: #${activeTrip.id}</div>
-                                </div>
-                                <div class="stats-bar" style="grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 0;">
-                                    <div class="stat-card" style="padding: 12px;">
-                                        <span class="stat-label" style="font-size: 0.75rem;">Vehicle Assigned</span>
-                                        <span style="font-size: 1.1rem; font-weight: 700;">${vehicle?.registration_number || 'N/A'}</span>
-                                        <span class="stat-desc" style="font-size: 0.7rem;">${vehicle?.name_model || ''}</span>
-                                    </div>
-                                    <div class="stat-card" style="padding: 12px;">
-                                        <span class="stat-label" style="font-size: 0.75rem;">Load Weight</span>
-                                        <span style="font-size: 1.1rem; font-weight: 700;">${activeTrip.cargo_weight.toLocaleString()} lbs</span>
-                                        <span class="stat-desc" style="font-size: 0.7rem;">Limit: ${vehicle?.max_load_capacity.toLocaleString() || 0} lbs</span>
-                                    </div>
-                                </div>
-                                <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 8px;">
-                                    <div>
-                                        <span style="font-size: 0.85rem; font-weight: 500; color: var(--text-secondary);">Trip Status:</span>
-                                        ${window.getStatusPillHTML(activeTrip.status)}
-                                    </div>
-                                    <div>
-                                        <button id="driver-complete-btn" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">
-                                            Mark Completed
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>`;
-
-                        document.getElementById('driver-complete-btn').addEventListener('click', () => {
-                            window.TransitOpsAPI.completeTrip(activeTrip.id).then(() => {
-                                showToast(`Trip #${activeTrip.id} successfully completed!`, 'success');
-                                renderDashboard(session);
-                            });
-                        });
-                    });
-                } else {
-                    tripContainer.innerHTML = `
-                        <div style="text-align: center; padding: 40px 20px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 48px; height: 48px; color: var(--text-muted); margin-bottom: 16px;">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="12" y1="8" x2="12" y2="12"></line>
-                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                            </svg>
-                            <h4 style="font-weight: 600; margin-bottom: 4px;">No Assigned Trips</h4>
-                            <p style="color: var(--text-secondary); font-size: 0.85rem;">Your queue is currently empty. Contact operations for a new route assignment.</p>
-                        </div>`;
-                }
-            });
+            } catch (err) {
+                showToast(err.message || 'Failed to load driver data.', 'danger');
+            }
         }
+
+        window.confirmDelivered = async function(tripId) {
+            try {
+                await window.TransitOpsAPI.completeTrip(tripId);
+                showToast(`Trip #${tripId} marked as delivered. Vehicle & driver released.`, 'success');
+                const session = JSON.parse(localStorage.getItem('transitops_session'));
+                renderDashboard(session);
+            } catch (err) {
+                showToast(err.message || 'Failed to complete trip.', 'danger');
+            }
+        };
 
         function setupFormListener() {
             const form = document.getElementById('dispatch-form');
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const vehicleId = parseInt(document.getElementById('dispatch-vehicle').value);
-                const driverId = parseInt(document.getElementById('dispatch-driver').value);
-                const source = document.getElementById('dispatch-source').value.trim();
-                const destination = document.getElementById('dispatch-destination').value.trim();
-                const weight = parseInt(document.getElementById('dispatch-weight').value);
+                try {
+                    const vehicleId = parseInt(document.getElementById('dispatch-vehicle').value);
+                    const driverId = parseInt(document.getElementById('dispatch-driver').value);
+                    const source = document.getElementById('dispatch-source').value.trim();
+                    const destination = document.getElementById('dispatch-destination').value.trim();
+                    const weight = parseInt(document.getElementById('dispatch-weight').value);
+                    if (!vehicleId || !driverId || !source || !destination || !weight) throw new Error('All fields are required.');
 
-                window.TransitOpsAPI.dispatchTrip(source, destination, vehicleId, driverId, weight)
-                    .then(trip => {
-                        showToast(`Route #${trip.id} successfully dispatched!`, 'success');
-                        form.reset();
-                        const session = JSON.parse(localStorage.getItem('transitops_session'));
-                        renderDashboard(session);
-                    })
-                    .catch(err => {
-                        showToast(err.message, 'danger');
-                    });
+                    await window.TransitOpsAPI.dispatchTrip(source, destination, vehicleId, driverId, weight);
+                    showToast('Route successfully dispatched!', 'success');
+                    form.reset();
+                    const session = JSON.parse(localStorage.getItem('transitops_session'));
+                    renderDashboard(session);
+                } catch (err) {
+                    showToast(err.message || 'Failed to dispatch route.', 'danger');
+                }
             });
         }
     </script>
