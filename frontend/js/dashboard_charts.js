@@ -28,7 +28,16 @@
                 var vRetired = vehicles.filter(function (v) { return v.status === 'Retired'; }).length;
                 charts.push(new Chart(vehicleStatusCtx, {
                     type: 'pie',
-                    data: { labels: ['Available', 'On Trip', 'In Shop', 'Retired'], datasets: [{ data: [vAvail, vOnTrip, vInShop, vRetired] }] },
+                    data: { labels: ['Available', 'On Trip', 'In Shop', 'Retired'], datasets: [{ data: [vAvail, vOnTrip, vInShop, vRetired],
+                        backgroundColor: [
+                "#71947eff",   // Green
+                "#82c3d8ff",   // Blue
+                "#eacca5ff",   // Orange
+                "#d98080ff"    // Red
+                ],
+                borderColor: "#b5b8bdff",
+                borderWidth: 2
+                     }] },
                     options: { responsive: true, maintainAspectRatio: false }
                 }));
             }
@@ -40,7 +49,11 @@
                 var cancelled = trips.filter(function (t) { return t.status === 'Cancelled'; }).length;
                 charts.push(new Chart(tripStatusCtx, {
                     type: 'bar',
-                    data: { labels: ['Draft', 'Dispatched', 'Completed', 'Cancelled'], datasets: [{ label: 'Trips', data: [draft, dispatched, completed, cancelled] }] },
+                    data: { labels: ['Draft', 'Dispatched', 'Completed', 'Cancelled'], datasets: [{ label: 'Trips', data: [draft, dispatched, completed, cancelled], backgroundColor: "#8fcbdaff",
+
+                    borderColor: "#a7b5d3ff",
+
+                    borderWidth: 2,}] },
                     options: { responsive: true, maintainAspectRatio: false }
                 }));
             }
@@ -51,7 +64,13 @@
                 var dPending = trips.filter(function (t) { return t.status === 'Draft'; }).length;
                 charts.push(new Chart(driverTripCtx, {
                     type: 'doughnut',
-                    data: { labels: ['Completed', 'Dispatched', 'Pending'], datasets: [{ data: [dCompleted, dAssigned, dPending] }] },
+                    data: { labels: ['Completed', 'Dispatched', 'Pending'], datasets: [{ data: [dCompleted, dAssigned, dPending],backgroundColor: [
+                "#71947eff",   // Green
+                "#82c3d8ff",   // Blue
+                "#eacca5ff",   // Orange
+                ],
+                borderColor: "#b5b8bdff",
+                borderWidth: 2 }] },
                     options: { responsive: true, maintainAspectRatio: false }
                 }));
             }
@@ -79,7 +98,7 @@
 
                 charts.push(new Chart(distanceCtx, {
                     type: 'line',
-                    data: { labels: labels, datasets: [{ label: 'Distance (mi)', data: distData, borderColor: '#2563eb', tension: 0.1 }] },
+                    data: { labels: labels, datasets: [{ label: 'Distance (mi)', data: distData, borderColor: '#9fa8bcff', tension: 0.1 }] },
                     options: { responsive: true, maintainAspectRatio: false }
                 }));
             }
@@ -90,7 +109,13 @@
                 var drSuspended = drivers.filter(function (d) { return d.status === 'Suspended'; }).length;
                 charts.push(new Chart(driverStatusCtx, {
                     type: 'pie',
-                    data: { labels: ['Available', 'On Trip', 'Suspended'], datasets: [{ data: [drAvail, drOnTrip, drSuspended] }] },
+                    data: { labels: ['Available', 'On Trip', 'Suspended'], datasets: [{ data: [drAvail, drOnTrip, drSuspended],backgroundColor: [
+                "#71947eff",   // Green
+                "#eacca5ff",   // Orange
+                "#d98080ff"    // Red
+                ],
+                borderColor: "#b5b8bdff",
+                borderWidth: 2 }] },
                     options: { responsive: true, maintainAspectRatio: false }
                 }));
             }
@@ -106,7 +131,11 @@
                 });
                 charts.push(new Chart(licenseCtx, {
                     type: 'bar',
-                    data: { labels: ['Expired', 'Expiring <30 Days', 'Valid'], datasets: [{ label: 'Drivers', data: [expired, expiring, valid] }] },
+                    data: { labels: ['Expired', 'Expiring <30 Days', 'Valid'], datasets: [{ label: 'Drivers', data: [expired, expiring, valid],backgroundColor: "#71947eff",
+
+    borderColor: "#99a8c8ff",
+
+    borderWidth: 2, }] },
                     options: { responsive: true, maintainAspectRatio: false }
                 }));
             }
@@ -117,7 +146,13 @@
                 var expenseTotal = expenses.reduce(function (s, e) { return s + (e.amount || 0); }, 0);
                 charts.push(new Chart(expenseCtx, {
                     type: 'pie',
-                    data: { labels: ['Fuel', 'Maintenance', 'Other Expenses'], datasets: [{ data: [fuelTotal, maintTotal, expenseTotal] }] },
+                    data: { labels: ['Fuel', 'Maintenance', 'Other Expenses'], datasets: [{ data: [fuelTotal, maintTotal, expenseTotal],backgroundColor: [
+                "#71947eff",   // Green
+                "#82c3d8ff",   // Blue
+                "#eacca5ff",   // Orange
+                ],
+                borderColor: "#b5b8bdff",
+                borderWidth: 2 }] },
                     options: { responsive: true, maintainAspectRatio: false }
                 }));
             }
