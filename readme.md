@@ -162,6 +162,19 @@ TransitOps/
 
 ---
 
+## Setup
+
+### Database
+
+```
+cd database
+sqlite3 transitops.db
+.read schema.sql
+.read seed.sql
+```
+
+---
+
 ## License
 
 This project was developed for educational and hackathon purposes.
