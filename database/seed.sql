@@ -7,12 +7,12 @@ INSERT OR IGNORE INTO roles (name, description) VALUES
 ('Safety Officer', 'Ensures compliance and safety'),
 ('Financial Analyst', 'Reviews expenses and analytics');
 
--- Users (use proper bcrypt hashes in your app; these are placeholders)
+-- Users (hashed passwords — all passwords are 'password')
 INSERT OR IGNORE INTO users (email, password_hash, name, role_id) VALUES 
-('manager@transitops.com', '$2b$12$examplehash123456', 'Fleet Manager', 1),
-('driver@transitops.com', '$2b$12$examplehashdriver12', 'Alex Kumar', 2),
-('safety@transitops.com', '$2b$12$examplehashsafety12', 'Safety Officer', 3),
-('finance@transitops.com', '$2b$12$examplehashfinance12', 'Financial Analyst', 4);
+('manager@transitops.com', 'scrypt:32768:8:1$whL42fwRDf8Q1ild$3be40f64a76a1530bd9e40fc4f390e3b11e9c4b052797cb3a0d8c1b3c85a0be75456daae08a5c853365e538186543e2f52b72ee5e462496c7a06fb82bd1e5468', 'Alex Vance', 1),
+('driver@transitops.com', 'scrypt:32768:8:1$whL42fwRDf8Q1ild$3be40f64a76a1530bd9e40fc4f390e3b11e9c4b052797cb3a0d8c1b3c85a0be75456daae08a5c853365e538186543e2f52b72ee5e462496c7a06fb82bd1e5468', 'Alex Kumar', 2),
+('safety@transitops.com', 'scrypt:32768:8:1$whL42fwRDf8Q1ild$3be40f64a76a1530bd9e40fc4f390e3b11e9c4b052797cb3a0d8c1b3c85a0be75456daae08a5c853365e538186543e2f52b72ee5e462496c7a06fb82bd1e5468', 'Elena Rostova', 3),
+('finance@transitops.com', 'scrypt:32768:8:1$whL42fwRDf8Q1ild$3be40f64a76a1530bd9e40fc4f390e3b11e9c4b052797cb3a0d8c1b3c85a0be75456daae08a5c853365e538186543e2f52b72ee5e462496c7a06fb82bd1e5468', 'Marcus Vance', 4);
 
 -- Vehicles
 INSERT OR IGNORE INTO vehicles (registration_number, name_model, type, max_load_capacity, current_odometer, acquisition_cost, status) VALUES 

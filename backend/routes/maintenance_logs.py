@@ -78,3 +78,28 @@ def delete_maintenance_log(id):
             return jsonify({'error': 'Not found'}), 404
         db.execute("DELETE FROM maintenance_logs WHERE id = ?", (id,))
     return jsonify({'message': 'Deleted'})
+
+
+@bp.route('/log', methods=['POST'])
+def log_maintenance():
+    data = request.get_json()
+    vehicle_id = data.get('vehicle_id')
+    description = data.get('description')
+    start_date = data.get('start_date')
+
+    if not all([vehicle_id, description, start_date]):
+        return jsonify({'error': 'vehicle_id, description, and start_date are required'}), 400
+
+    with get_db() as db:
+        vehicle = db.execute("SELECT * FROM vehicles WHERE id = ?", (vehicle_id,)).fetchone()
+        if not vehicle:
+            return jsonify({'error': 'Invalid vehicle selected'}), 400
+
+        db.execute("UPDATE vehicles SET status = 'In Shop' WHERE id = ?", (vehicle_id,))
+
+        cur = db.execute(
+            "INSERT INTO maintenance_logs (vehicle_id, description, start_date) VALUES (?, ?, ?)",
+            (vehicle_id, description, start_date)
+        )
+        row = db.execute("SELECT * FROM maintenance_logs WHERE id = ?", (cur.lastrowid,)).fetchone()
+    return jsonify(dict_from_row(row)), 201

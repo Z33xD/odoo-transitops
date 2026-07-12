@@ -61,18 +61,15 @@
     <div id="toast-container"></div>
 
     <!-- Scripts Injection -->
-    <script src="js/state.js"></script>
     <script src="js/api.js"></script>
     <script src="js/app.js"></script>
     <script>
-        // Custom quick fill helper
         window.quickFill = function(email) {
             document.getElementById('auth-email').value = email;
             document.getElementById('auth-password').value = 'password';
             showToast('Credentials filled. Click Sign In.', 'info');
         };
 
-        // Custom router submit
         document.getElementById('auth-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('auth-email').value.trim().toLowerCase();
@@ -83,9 +80,8 @@
                 return;
             }
 
-            window.TransitOpsAPI.authenticate(email)
+            window.TransitOpsAPI.authenticate(email, password)
                 .then(user => {
-                    // Save Session
                     const sessionData = {
                         name: user.name,
                         role: user.role,
@@ -94,7 +90,6 @@
                     localStorage.setItem('transitops_session', JSON.stringify(sessionData));
                     showToast(`Authenticating. Redirecting as ${user.role}...`, 'success');
 
-                    // Route appropriately based on role mapping
                     setTimeout(() => {
                         switch (user.role) {
                             case 'Fleet Manager':
@@ -109,8 +104,6 @@
                             case 'Financial Analyst':
                                 window.location.href = 'dashboards/financial-analyst.html';
                                 break;
-                            default:
-                                showToast('Role directory routing failed.', 'danger');
                         }
                     }, 800);
                 })
