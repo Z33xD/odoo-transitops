@@ -166,11 +166,26 @@ TransitOps/
 
 ### Database
 
-```
+```bash
 cd database
 sqlite3 transitops.db
 .read schema.sql
 .read seed.sql
+```
+
+### Backend (standalone) -- Demonstrated for Windows Powershell
+
+Create a python virtual environment
+```bash
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+Run the backend
+```bash
+cd backend
+pip install -r requirements.txt
+python app.py
 ```
 
 ---
