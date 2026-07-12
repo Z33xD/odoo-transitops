@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransitOps - Safety & Compliance Board</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+    <!-- --- Persistent Navbar --- -->
+    <header id="persistent-navbar" class="glass-panel">
+        <div class="nav-brand">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            <span>TransitOps</span>
+        </div>
+        <div class="nav-actions">
+            <div id="user-role-badge" class="role-badge">Safety Officer: Loading...</div>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle light and dark mode">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            <button id="logout-button" class="logout-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- --- Workspace View Container --- -->
+    <main id="workspace-container">
+        <section id="view-safety-officer" class="workspace-view">
+            <div class="workspace-header">
+                <div class="workspace-title">
+                    <h2>Safety & Compliance Board</h2>
+                    <p>Audit commercial licensing, safety margins, and compliance markers</p>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Compliance Alerts list -->
+                <div class="glass-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                            Safety Audit Alerts
+                        </h3>
+                    </div>
+                    <div class="panel-body animate" id="safety-alerts-container">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Driver Compliance Table -->
+                <div class="glass-panel" style="grid-column: span 2;">
+                    <div class="panel-header">
+                        <h3 class="panel-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            Driver Directory Certification Checklist
+                        </h3>
+                    </div>
+                    <div class="panel-body data-table-wrapper" style="padding: 0;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Driver Name</th>
+                                    <th>License Number</th>
+                                    <th>Expiration Date</th>
+                                    <th>Safety Score</th>
+                                    <th>Status State</th>
+                                </tr>
+                            </thead>
+                            <tbody id="safety-drivers-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- UI Notification System -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts Injection -->
+    <script src="../js/state.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = window.checkSession('Safety Officer');
+            if (session) {
+                renderDashboard();
+            }
+        });
+
+        function renderDashboard() {
+            window.TransitOpsAPI.getDrivers().then(drivers => {
+                const alertsContainer = document.getElementById('safety-alerts-container');
+                alertsContainer.innerHTML = '';
+
+                const today = new Date();
+                const alertList = [];
+
+                drivers.forEach(d => {
+                    const expiryDate = new Date(d.license_expiry_date);
+                    const diffTime = expiryDate - today;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    if (d.status === 'Suspended') {
+                        alertList.push({
+                            type: 'danger',
+                            title: 'Driver Suspended Alert',
+                            desc: `${d.name}'s transport certification is flagged as SUSPENDED.`
+                        });
+                    }
+
+                    if (d.safety_score < 75) {
+                        alertList.push({
+                            type: 'warning',
+                            title: 'Low Driving Safety Score',
+                            desc: `${d.name} safety ranking at ${d.safety_score}% requires driver compliance coaching.`
+                        });
+                    }
+
+                    if (diffDays <= 0) {
+                        alertList.push({
+                            type: 'danger',
+                            title: 'License Expired',
+                            desc: `${d.name}'s CDL (${d.license_number}) expired on ${d.license_expiry_date}!`
+                        });
+                    } else if (diffDays <= 60) {
+                        alertList.push({
+                            type: 'warning',
+                            title: 'License Renewal Warning',
+                            desc: `${d.name}'s license will expire in ${diffDays} days (${d.license_expiry_date}).`
+                        });
+                    }
+                });
+
+                if (alertList.length > 0) {
+                    alertList.forEach(a => {
+                        const iconClass = a.type === 'danger' ? 'alert-danger' : 'alert-warning';
+                        alertsContainer.innerHTML += `
+                            <div class="compliance-item">
+                                <div class="compliance-details">
+                                    <div class="compliance-icon ${iconClass}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px; height:18px;">
+                                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="compliance-info">
+                                        <h4>${a.title}</h4>
+                                        <p>${a.desc}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+                    });
+                } else {
+                    alertsContainer.innerHTML = `
+                        <div style="text-align:center; padding:32px; color:var(--text-muted);">
+                            <h4>All Drivers Compliant</h4>
+                            <p style="font-size:0.8rem; margin-top:4px;">No active alerts or expiration issues detected.</p>
+                        </div>`;
+                }
+
+                // Directory checklist
+                const tableBody = document.getElementById('safety-drivers-table-body');
+                tableBody.innerHTML = '';
+                drivers.forEach(d => {
+                    let scoreClass = 'safety-score-high';
+                    if (d.safety_score < 75) scoreClass = 'safety-score-low';
+                    else if (d.safety_score < 90) scoreClass = 'safety-score-medium';
+
+                    tableBody.innerHTML += `
+                        <tr>
+                            <td><strong>${d.name}</strong></td>
+                            <td><code style="font-family: monospace; font-size:0.85rem;">${d.license_number}</code></td>
+                            <td>${d.license_expiry_date}</td>
+                            <td>
+                                <span class="safety-score-pill ${scoreClass}">${d.safety_score}%</span>
+                            </td>
+                            <td>${window.getStatusPillHTML(d.status)}</td>
+                        </tr>`;
+                });
+            });
+        }
+    </script>
+</body>
+</html>
