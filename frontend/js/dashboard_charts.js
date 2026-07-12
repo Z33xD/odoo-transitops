@@ -57,15 +57,29 @@
             }
 
             if (distanceCtx) {
-                var distData = [0, 0, 0, 0, 0];
-                var completedTrips = trips.filter(function (t) { return t.status === 'Completed'; });
-                if (completedTrips.length > 0) {
-                    var perTrip = Math.min(Math.round(completedTrips.reduce(function (s, t) { return s + (t.cargo_weight || 0); }, 0) / 100), 500);
-                    distData = distData.map(function () { return Math.round(perTrip * (0.5 + Math.random())); });
+                var completedTrips = trips.filter(function (t) {
+                    return t.status === 'Completed' && t.actual_distance !== undefined && t.actual_distance !== null;
+                });
+                
+                completedTrips.sort(function (a, b) { return a.id - b.id; });
+                var lastFive = completedTrips.slice(-5);
+                
+                var labels = [];
+                var distData = [];
+                var padCount = 5 - lastFive.length;
+                for (var i = 0; i < padCount; i++) {
+                    labels.push('—');
+                    distData.push(0);
                 }
+                
+                lastFive.forEach(function (t) {
+                    labels.push('Trip #' + t.id);
+                    distData.push(t.actual_distance);
+                });
+
                 charts.push(new Chart(distanceCtx, {
                     type: 'line',
-                    data: { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], datasets: [{ label: 'Distance (km)', data: distData }] },
+                    data: { labels: labels, datasets: [{ label: 'Distance (mi)', data: distData, borderColor: '#2563eb', tension: 0.1 }] },
                     options: { responsive: true, maintainAspectRatio: false }
                 }));
             }
