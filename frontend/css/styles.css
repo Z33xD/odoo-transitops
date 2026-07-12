@@ -742,6 +742,37 @@ table.data-table tr:last-child td {
 .map-dot.origin { left: 20%; top: 60%; }
 .map-dot.destination { right: 20%; top: 40%; }
 
+/* --- KPI Cards --- */
+.kpi-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 20px;
+    text-align: center;
+}
+
+.kpi-card h3 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.kpi-card h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
 /* --- Utility Hidden Class --- */
 .hidden {
     display: none !important;

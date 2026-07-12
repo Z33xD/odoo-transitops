@@ -28,6 +28,14 @@ window.TransitOpsAPI = {
         return this.request('GET', '/api/maintenance-logs/');
     },
 
+    getFuelLogs() {
+        return this.request('GET', '/api/fuel-logs/');
+    },
+
+    getExpenses() {
+        return this.request('GET', '/api/expenses/');
+    },
+
     dispatchTrip(source, destination, vehicleId, driverId, cargoWeight) {
         return this.request('POST', '/api/trips/dispatch', {
             source, destination, vehicle_id: vehicleId, driver_id: driverId, cargo_weight: cargoWeight
