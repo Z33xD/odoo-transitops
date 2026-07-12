@@ -272,16 +272,27 @@ window.initSidebarCalendar = function() {
 
             const dayEvents = eventDict[dateStr];
             if (dayEvents && dayEvents.length > 0) {
-                const hasFuture = dayEvents.some(ev => {
-                    if (ev.type === 'trip' && ev.status === 'Completed') return false;
-                    if (ev.type === 'maintenance' && ev.status === 'Closed') return false;
-                    return true;
+                // Determine highest importance severity
+                let hasDanger = false;
+                let hasWarning = false;
+                let hasInfo = false;
+                let hasPast = false;
+
+                dayEvents.forEach(ev => {
+                    if (ev.severity === 'danger') hasDanger = true;
+                    else if (ev.severity === 'warning') hasWarning = true;
+                    else if (ev.severity === 'info') hasInfo = true;
+                    else if (ev.severity === 'past') hasPast = true;
                 });
 
-                if (hasFuture) {
-                    cell.classList.add('future-event');
-                } else {
-                    cell.classList.add('past-event');
+                if (hasDanger) {
+                    cell.classList.add('event-danger');
+                } else if (hasWarning) {
+                    cell.classList.add('event-warning');
+                } else if (hasInfo) {
+                    cell.classList.add('event-info');
+                } else if (hasPast) {
+                    cell.classList.add('event-past');
                 }
 
                 cell.addEventListener('mouseenter', () => {
@@ -386,39 +397,87 @@ window.initSidebarCalendar = function() {
     Promise.all([
         window.TransitOpsAPI.getTrips().catch(() => []),
         window.TransitOpsAPI.getMaintenanceLogs().catch(() => []),
-        window.TransitOpsAPI.getVehicleDocuments().catch(() => [])
-    ]).then(([trips, logs, docs]) => {
+        window.TransitOpsAPI.getVehicleDocuments().catch(() => []),
+        window.TransitOpsAPI.getDrivers().catch(() => [])
+    ]).then(([trips, logs, docs, drivers]) => {
+        const baseline = new Date('2026-07-12');
+
+        // 1. Trips
         trips.forEach(t => {
             if (t.created_at) {
                 const dateKey = t.created_at.split('T')[0].split(' ')[0];
                 if (!eventDict[dateKey]) eventDict[dateKey] = [];
+                const isPast = t.status === 'Completed';
                 eventDict[dateKey].push({
                     type: 'trip',
                     status: t.status,
+                    severity: isPast ? 'past' : 'info',
                     text: `🚚 Dispatch: ${t.source} to ${t.destination} [${t.status}]`
                 });
             }
         });
 
+        // 2. Maintenance Logs
         logs.forEach(l => {
             if (l.start_date) {
                 const dateKey = l.start_date.split('T')[0];
                 if (!eventDict[dateKey]) eventDict[dateKey] = [];
+                const isPast = l.status === 'Closed';
                 eventDict[dateKey].push({
                     type: 'maintenance',
                     status: l.status || 'Open',
+                    severity: isPast ? 'past' : 'info',
                     text: `🔧 Shop Service: Vehicle #${l.vehicle_id} - ${l.description} [${l.status || 'Open'}]`
                 });
             }
         });
 
+        // 3. Vehicle Compliance Documents
         docs.forEach(d => {
             if (d.expiry_date) {
                 const dateKey = d.expiry_date.split('T')[0];
                 if (!eventDict[dateKey]) eventDict[dateKey] = [];
+                
+                const expiry = new Date(d.expiry_date);
+                const diffTime = expiry - baseline;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                let sev = 'info';
+                if (diffDays <= 0) {
+                    sev = 'danger';
+                } else if (diffDays <= 60) {
+                    sev = 'warning';
+                }
+
                 eventDict[dateKey].push({
                     type: 'compliance',
-                    text: `⚠️ Expiry Warning: ${d.document_type} due`
+                    severity: sev,
+                    text: `⚠️ Expiry Warning: ${d.document_type} due [${sev === 'danger' ? 'EXPIRED' : 'EXPIRING'}]`
+                });
+            }
+        });
+
+        // 4. Drivers (License Expiration & Score Warnings)
+        drivers.forEach(d => {
+            if (d.license_expiry_date) {
+                const dateKey = d.license_expiry_date.split('T')[0];
+                if (!eventDict[dateKey]) eventDict[dateKey] = [];
+                
+                const expiry = new Date(d.license_expiry_date);
+                const diffTime = expiry - baseline;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                let sev = 'info';
+                if (diffDays <= 0 || d.status === 'Suspended') {
+                    sev = 'danger';
+                } else if (diffDays <= 60 || d.safety_score < 75) {
+                    sev = 'warning';
+                }
+
+                eventDict[dateKey].push({
+                    type: 'compliance',
+                    severity: sev,
+                    text: `👤 Driver Alert: ${d.name} CDL [${sev === 'danger' ? 'RED WARNING' : 'YELLOW WARNING'}]`
                 });
             }
         });

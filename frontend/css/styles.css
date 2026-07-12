@@ -15,8 +15,8 @@
     --text-secondary: #475569;
     --text-muted: #94a3b8;
     
-    --sidebar-bg: #0F172A; /* Corporate Navy Blue */
-    --sidebar-text: #F8FAFC;
+    --sidebar-bg: #F1F5F9; /* Light Slate Gray */
+    --sidebar-text: #334155; /* Dark Slate Gray */
     
     --primary: #2563eb;
     --primary-hover: #1d4ed8;
@@ -147,6 +147,22 @@ h1, h2, h3, h4, h5, h6 {
     height: 100vh;
     position: sticky;
     top: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+.sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+.sidebar:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .main-content {
@@ -816,24 +832,44 @@ table.data-table tr:last-child td {
     align-items: center;
     justify-content: center;
 }
-.sidebar-calendar-day.past-event {
+.sidebar-calendar-day.event-danger {
+    background: var(--danger-bg);
+    border: 1px solid var(--color-danger);
+    cursor: pointer;
+    font-weight: 700;
+}
+.sidebar-calendar-day.event-danger:hover {
+    background: var(--color-danger);
+    color: white;
+}
+.sidebar-calendar-day.event-warning {
+    background: var(--warning-bg);
+    border: 1px solid var(--color-warning);
+    cursor: pointer;
+    font-weight: 600;
+}
+.sidebar-calendar-day.event-warning:hover {
+    background: var(--color-warning);
+    color: white;
+}
+.sidebar-calendar-day.event-info {
+    background: var(--primary-light);
+    border: 1px solid var(--primary);
+    cursor: pointer;
+    font-weight: 600;
+}
+.sidebar-calendar-day.event-info:hover {
+    background: var(--primary);
+    color: white;
+}
+.sidebar-calendar-day.event-past {
     background: rgba(148, 163, 184, 0.15);
     border: 1px solid var(--text-muted);
     cursor: pointer;
     font-weight: 600;
 }
-.sidebar-calendar-day.past-event:hover {
+.sidebar-calendar-day.event-past:hover {
     background: var(--text-secondary);
-    color: white;
-}
-.sidebar-calendar-day.future-event {
-    background: rgba(37, 99, 235, 0.25);
-    border: 1px solid var(--primary);
-    cursor: pointer;
-    font-weight: 600;
-}
-.sidebar-calendar-day.future-event:hover {
-    background: var(--primary);
     color: white;
 }
 
